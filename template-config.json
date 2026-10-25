@@ -37,7 +37,7 @@
         "restartPolicyMaxRetries": 10
       },
       "source": {
-        "image": "lnbits/lnbits:latest"
+        "image": "lnbits/lnbits:v1.6.2"
       },
       "variables": {
         "HOST": {

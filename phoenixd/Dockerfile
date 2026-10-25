@@ -4,7 +4,7 @@
 # - PHOENIX_DATADIR pins the data dir (root's HOME would move it off the volume).
 # - CMD goes through bash so $PHOENIXD_API_PASSWORD (a Railway variable) expands;
 #   --http-bind-ip :: is required for Railway's IPv6-only private network.
-FROM acinq/phoenixd:latest
+FROM acinq/phoenixd:0.9.3
 USER root
 ENV PHOENIX_DATADIR=/phoenix/.phoenix
 ENTRYPOINT []
