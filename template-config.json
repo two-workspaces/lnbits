@@ -79,6 +79,11 @@
           "isOptional": false,
           "description": "Funding source implementation. Static \u2014 this template wires LNbits to phoenixd.",
           "defaultValue": "PhoenixdWallet"
+        },
+        "FIRST_INSTALL_TOKEN": {
+          "isOptional": false,
+          "description": "Asked for on the /first_install page, so only you can create the admin account. Copy it from here when you open the site. Don't change it after setup: LNbits treats a new token as a reinstall and resets its admin settings.",
+          "defaultValue": "${{secret(32)}}"
         }
       },
       "networking": {

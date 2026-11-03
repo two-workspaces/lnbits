@@ -37,7 +37,7 @@ Hosting LNbits normally requires connecting it to a Lightning funding source —
 - LNbits connects to phoenixd via `LNBITS_BACKEND_WALLET_CLASS=PhoenixdWallet` and `PHOENIXD_API_ENDPOINT=http://phoenixd.railway.internal:9740/`; the shared `PHOENIXD_API_PASSWORD` is generated per deploy.
 - phoenixd manages liquidity automatically: inbound capacity is purchased on demand (fees apply, ~1% + mining fee on incoming payments until sufficient liquidity exists — see [phoenixd fees](https://phoenix.acinq.co/server/faq)). This is the trade-off for skipping node ops entirely.
 - Lightning-only: this stack accepts and sends Lightning payments. For on-chain BTC invoicing you'd want BTCPay Server, which requires a bitcoind node and a Pro-plan-sized volume.
-- First user to open the web UI becomes the instance owner (enable `LNBITS_ADMIN_UI` is already set). Set `LNBITS_ADMIN_USERS` to lock it down further.
+- **First use:** open your Railway domain and create the admin account at `/first_install`. It asks for a token, which is `FIRST_INSTALL_TOKEN` in the LNbits service's Variables tab, so a stranger who finds the URL first can't take the instance. Don't change the token after setup: LNbits treats a new one as a reinstall and resets its admin settings.
 
 ## Why Deploy LNbits on Railway?
 
