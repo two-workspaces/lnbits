@@ -1,0 +1,36 @@
+# Builds the Phoenixd image the Railway template deploys, so a deploy pulls a finished
+# image instead of building phoenixd/ on Railway's builders (FROM acinq/phoenixd on
+# Docker Hub) every time. Each push to main that touches phoenixd/ gets
+# ghcr.io/<this repo>/phoenixd:<short sha>; point template-config.json at it, then republish.
+# LNbits itself deploys the upstream lnbits/lnbits image directly.
+name: Image
+on:
+  push:
+    branches: [main]
+    paths: ["phoenixd/**", ".github/workflows/image.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
+jobs:
+  image:
+    if: github.repository_owner == 'two-workspaces'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+      - uses: docker/build-push-action@v6
+        with:
+          context: phoenixd
+          push: true
+          platforms: linux/amd64
+          tags: ghcr.io/${{ github.repository }}/phoenixd:${{ env.SHORT_SHA }},ghcr.io/${{ github.repository }}/phoenixd:latest
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
